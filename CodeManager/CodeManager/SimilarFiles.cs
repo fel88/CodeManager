@@ -122,10 +122,10 @@ namespace CodeManager
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listView1.Items.Count == 0)
+            if (listView1.SelectedItems.Count == 0)
                 return;
 
-            var b = listView1.Items[0].Tag as FileMatchBatchInfo;
+            var b = listView1.SelectedItems[0].Tag as FileMatchBatchInfo;
             listView2.Items.Clear();
             foreach (var item in b.Matches)
             {
@@ -142,10 +142,10 @@ namespace CodeManager
 
         private void listView2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listView2.Items.Count == 0)
+            if (listView2.SelectedItems.Count == 0)
                 return;
 
-            var b = listView2.Items[0].Tag as FileMatchInfo;
+            var b = listView2.SelectedItems[0].Tag as FileMatchInfo;
             dv.NewTextHeader = b.File;
             dv.OldTextHeader = b.Parent.File;
             dv.NewText = File.ReadAllText(b.File);
