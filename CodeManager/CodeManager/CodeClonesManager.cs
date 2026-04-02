@@ -70,12 +70,17 @@ namespace CodeManager
                         index++;
                         if (index == linesToSearch.Length)
                         {
-                            listView1.Items.Add(new ListViewItem(new string[] { Path.GetFileName(item), Path.GetDirectoryName(item) }) { Tag = item });
+                            listView1.Items.Add(new ListViewItem(new string[] { Path.GetFileName(item),
+
+                                Path.GetRelativePath(currentDir, item) })
+                            { Tag = item });
                             break;
                         }
                     }
                 }
             }
+
+            toolStripStatusLabel1.Text = $"files found: {listView1.Items.Count}";
         }
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)

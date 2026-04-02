@@ -38,8 +38,11 @@
             toolStripButton1 = new ToolStripButton();
             toolStripButton3 = new ToolStripButton();
             toolStripButton2 = new ToolStripButton();
+            statusStrip1 = new StatusStrip();
+            toolStripStatusLabel1 = new ToolStripStatusLabel();
             tableLayoutPanel1.SuspendLayout();
             toolStrip1.SuspendLayout();
+            statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -55,7 +58,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(800, 425);
+            tableLayoutPanel1.Size = new Size(800, 403);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // listView1
@@ -66,7 +69,7 @@
             listView1.GridLines = true;
             listView1.Location = new Point(3, 3);
             listView1.Name = "listView1";
-            listView1.Size = new Size(394, 206);
+            listView1.Size = new Size(394, 195);
             listView1.TabIndex = 0;
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
@@ -87,9 +90,9 @@
             listView2.Dock = DockStyle.Fill;
             listView2.FullRowSelect = true;
             listView2.GridLines = true;
-            listView2.Location = new Point(3, 215);
+            listView2.Location = new Point(3, 204);
             listView2.Name = "listView2";
-            listView2.Size = new Size(394, 207);
+            listView2.Size = new Size(394, 196);
             listView2.TabIndex = 1;
             listView2.UseCompatibleStateImageBehavior = false;
             listView2.View = View.Details;
@@ -130,6 +133,20 @@
             toolStripButton2.Text = "search multiline";
             toolStripButton2.Click += toolStripButton2_Click;
             // 
+            // statusStrip1
+            // 
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripStatusLabel1 });
+            statusStrip1.Location = new Point(0, 428);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(800, 22);
+            statusStrip1.TabIndex = 2;
+            statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            toolStripStatusLabel1.Size = new Size(0, 17);
+            // 
             // CodeClonesManager
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -137,11 +154,14 @@
             ClientSize = new Size(800, 450);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(toolStrip1);
+            Controls.Add(statusStrip1);
             Name = "CodeClonesManager";
             Text = "CodeClonesManager";
             tableLayoutPanel1.ResumeLayout(false);
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -157,5 +177,7 @@
         private ToolStripButton toolStripButton2;
         private ListView listView2;
         private ToolStripButton toolStripButton3;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel toolStripStatusLabel1;
     }
 }
