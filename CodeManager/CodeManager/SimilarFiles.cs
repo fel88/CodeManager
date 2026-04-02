@@ -1,20 +1,8 @@
 ﻿using DiffPlex.DiffBuilder;
 using DiffPlex.DiffBuilder.Model;
 using DiffPlex.WindowsForms.Controls;
-using NetDiff;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Forms;
-using System.Windows.Forms.Integration;
-using System.Windows.Shapes;
 using Path = System.IO.Path;
 
 namespace CodeManager
@@ -63,13 +51,28 @@ namespace CodeManager
 
             // Count characters in unchanged lines
             double unchangedCharacters = diff.Lines
-                .Where(l => l.Type == ChangeType.Unchanged)
-                .Sum(l => l.Text.Length);
+                .Where(l => l.Type == ChangeType.Unchanged).Count();
+
 
             // Calculate similarity based on the longer string to account for additions/deletions
-            int maxLength = Math.Max(oldText.Length, newText.Length);
+            int maxLength = Math.Max(CountLines(oldText), CountLines(newText));
             return (unchangedCharacters / maxLength);
         }
+
+        public static int CountLines(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return 0;
+
+            int count = 1;
+            for (int i = 0; i < text.Length; i++)
+            {
+                if (text[i] == '\n') count++;
+            }
+            return count;
+        }
+
+
         List<FileMatchBatchInfo> matches = new List<FileMatchBatchInfo>();
         private async void searchByFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -201,6 +204,11 @@ namespace CodeManager
         {
             currentDir = System.IO.Directory.GetParent(currentDir).FullName;
             Text = currentDir;
+        }
+
+        private void autoDetectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

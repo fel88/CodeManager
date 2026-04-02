@@ -44,10 +44,10 @@
             toolStripDropDownButton2 = new ToolStripDropDownButton();
             searchByFileToolStripMenuItem = new ToolStripMenuItem();
             autoDetectToolStripMenuItem = new ToolStripMenuItem();
+            toolStripButton1 = new ToolStripButton();
             statusStrip1 = new StatusStrip();
             toolStripProgressBar1 = new ToolStripProgressBar();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
-            toolStripButton1 = new ToolStripButton();
             tableLayoutPanel1.SuspendLayout();
             toolStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
@@ -186,6 +186,17 @@
             autoDetectToolStripMenuItem.Name = "autoDetectToolStripMenuItem";
             autoDetectToolStripMenuItem.Size = new Size(180, 22);
             autoDetectToolStripMenuItem.Text = "auto detect";
+            autoDetectToolStripMenuItem.Click += autoDetectToolStripMenuItem_Click;
+            // 
+            // toolStripButton1
+            // 
+            toolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButton1.Image = Properties.Resources.arrow_turn_090;
+            toolStripButton1.ImageTransparentColor = Color.Magenta;
+            toolStripButton1.Name = "toolStripButton1";
+            toolStripButton1.Size = new Size(23, 22);
+            toolStripButton1.Text = "toolStripButton1";
+            toolStripButton1.Click += toolStripButton1_Click;
             // 
             // statusStrip1
             // 
@@ -206,16 +217,6 @@
             // 
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             toolStripStatusLabel1.Size = new Size(0, 17);
-            // 
-            // toolStripButton1
-            // 
-            toolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Image;
-            toolStripButton1.Image = Properties.Resources.arrow_turn_090;
-            toolStripButton1.ImageTransparentColor = Color.Magenta;
-            toolStripButton1.Name = "toolStripButton1";
-            toolStripButton1.Size = new Size(23, 22);
-            toolStripButton1.Text = "toolStripButton1";
-            toolStripButton1.Click += toolStripButton1_Click;
             // 
             // SimilarFiles
             // 
