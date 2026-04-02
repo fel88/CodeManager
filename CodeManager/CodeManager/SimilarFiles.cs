@@ -1,4 +1,6 @@
-﻿using DiffPlex.WindowsForms.Controls;
+﻿using DiffPlex.DiffBuilder;
+using DiffPlex.DiffBuilder.Model;
+using DiffPlex.WindowsForms.Controls;
 using NetDiff;
 using System;
 using System.Collections.Generic;
@@ -51,6 +53,23 @@ namespace CodeManager
             public List<FileMatchInfo> Matches = new List<FileMatchInfo>();
         }
 
+        public double GetSimilarityPercentage(string oldText, string newText)
+        {
+            if (string.IsNullOrEmpty(oldText) || string.IsNullOrEmpty(newText))
+                return oldText == newText ? 100.0 : 0.0;
+
+            // Build the diff (line by line)
+            var diff = InlineDiffBuilder.Diff(oldText, newText);
+
+            // Count characters in unchanged lines
+            double unchangedCharacters = diff.Lines
+                .Where(l => l.Type == ChangeType.Unchanged)
+                .Sum(l => l.Text.Length);
+
+            // Calculate similarity based on the longer string to account for additions/deletions
+            int maxLength = Math.Max(oldText.Length, newText.Length);
+            return (unchangedCharacters / maxLength);
+        }
         List<FileMatchBatchInfo> matches = new List<FileMatchBatchInfo>();
         private async void searchByFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -97,10 +116,11 @@ namespace CodeManager
                         continue;
 
                     var text2 = File.ReadAllText(item);
-                    var results = DiffUtil.Diff(text1, text2);
-                    results = DiffUtil.Order(results, DiffOrderType.GreedyDeleteFirst);
-                    var len = results.Where(z => z.Status == DiffStatus.Equal).Count();
-                    var perc = len / (double)Math.Max(text1.Length, text2.Length);
+                    //var results = DiffUtil.Diff(text1, text2);
+                    //results = DiffUtil.Order(results, DiffOrderType.GreedyDeleteFirst);
+                    //var len = results.Where(z => z.Status == DiffStatus.Equal).Count();
+                    var perc = GetSimilarityPercentage(text1, text2);
+                    //var perc = len / (double)Math.Max(text1.Length, text2.Length);
                     var fr = matches.First();
 
                     if (perc >= passPerc)
