@@ -58,10 +58,12 @@ namespace CodeManager
 
             var d = AutoDialog.DialogHelpers.StartDialog();
             d.AddBoolField("sameNameOnly", "Same name only", false);
+            d.AddDouble("koef", "Pass perc", 90, min: 1, max: 100m);
             if (!d.ShowDialog())
                 return;
 
             var sameNameOnly = d.GetBoolField("sameNameOnly");
+            var passPerc = d.GetDouble("koef") / 100.0;
             matches.Clear();
             var text1 = File.ReadAllText(ofd.FileName);
             string[] files = Directory.GetFiles(currentDir, lastMask, SearchOption.AllDirectories);
@@ -99,7 +101,7 @@ namespace CodeManager
                     var perc = len / (double)Math.Max(text1.Length, text2.Length);
                     var fr = matches.First();
 
-                    if (perc > 0.9)
+                    if (perc >= passPerc)
                     {
                         fr.Matches.Add(new FileMatchInfo(fr) { File = item, Match = perc });
                     }
