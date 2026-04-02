@@ -34,6 +34,8 @@
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
             listView2 = new ListView();
+            columnHeader3 = new ColumnHeader();
+            columnHeader4 = new ColumnHeader();
             toolStrip1 = new ToolStrip();
             toolStripButton1 = new ToolStripButton();
             toolStripButton3 = new ToolStripButton();
@@ -87,6 +89,7 @@
             // 
             // listView2
             // 
+            listView2.Columns.AddRange(new ColumnHeader[] { columnHeader3, columnHeader4 });
             listView2.Dock = DockStyle.Fill;
             listView2.FullRowSelect = true;
             listView2.GridLines = true;
@@ -96,6 +99,7 @@
             listView2.TabIndex = 1;
             listView2.UseCompatibleStateImageBehavior = false;
             listView2.View = View.Details;
+            listView2.SelectedIndexChanged += listView2_SelectedIndexChanged;
             // 
             // toolStrip1
             // 
@@ -179,5 +183,7 @@
         private ToolStripButton toolStripButton3;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel1;
+        private ColumnHeader columnHeader3;
+        private ColumnHeader columnHeader4;
     }
 }
