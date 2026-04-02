@@ -122,8 +122,13 @@ namespace CodeManager
 
             var path = listView1.SelectedItems[0].Tag as string;
             ced.Text = File.ReadAllText(path);
+            var matches = Matches.Where(z => z.File == path).ToArray();
+            if (matches.Any())
+            {
+                NavigateTo(matches.First());
+            }
             listView2.Items.Clear();
-            foreach (var item in Matches.Where(z => z.File == path))
+            foreach (var item in matches)
             {
                 listView2.Items.Add(new ListViewItem(new string[] {
                 item.Line.ToString()
@@ -143,12 +148,8 @@ namespace CodeManager
             Text = currentDir;
         }
 
-        private void listView2_SelectedIndexChanged(object sender, EventArgs e)
+        void NavigateTo(LineMatch lm)
         {
-            if (listView2.SelectedItems.Count == 0)
-                return;
-
-            var lm = listView2.SelectedItems[0].Tag as LineMatch;
 
             //rtb.textEditor.ScrollToLine(Line);
 
@@ -160,6 +161,14 @@ namespace CodeManager
 
             // Select the line (offset, length)
             ced.textEditor.Select(line.Offset, line.TotalLength);
+        }
+        private void listView2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listView2.SelectedItems.Count == 0)
+                return;
+
+            var lm = listView2.SelectedItems[0].Tag as LineMatch;
+            NavigateTo(lm);
 
         }
     }
