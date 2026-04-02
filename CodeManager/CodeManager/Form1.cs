@@ -13,5 +13,12 @@ namespace CodeManager
             ccm.MdiParent = this;
             ccm.Show();
         }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            SimilarFiles ccm = new SimilarFiles();
+            ccm.MdiParent = this;
+            ccm.Show();
+        }
     }
 }
