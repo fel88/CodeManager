@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
+using System.Windows.Shapes;
+using Path = System.IO.Path;
 
 namespace CodeManager
 {
@@ -172,6 +174,12 @@ namespace CodeManager
                 return;
 
             currentDir = d.GetStringField("dir");
+            Text = currentDir;
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            currentDir = System.IO.Directory.GetParent(currentDir).FullName;
             Text = currentDir;
         }
     }

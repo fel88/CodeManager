@@ -208,5 +208,12 @@ namespace CodeManager
         {
             search();
         }
+
+        private void toolStripButton1_Click_1(object sender, EventArgs e)
+        {
+
+            currentDir = System.IO.Directory.GetParent(currentDir).FullName;
+            Text = currentDir;
+        }
     }
 }

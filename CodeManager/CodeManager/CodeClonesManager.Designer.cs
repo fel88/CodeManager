@@ -41,6 +41,7 @@
             manualToolStripMenuItem = new ToolStripMenuItem();
             toolStripButton2 = new ToolStripButton();
             toolStripButton4 = new ToolStripButton();
+            toolStripButton1 = new ToolStripButton();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             tableLayoutPanel1.SuspendLayout();
@@ -102,9 +103,18 @@
             listView2.View = View.Details;
             listView2.SelectedIndexChanged += listView2_SelectedIndexChanged;
             // 
+            // columnHeader3
+            // 
+            columnHeader3.Text = "Line";
+            columnHeader3.Width = 120;
+            // 
+            // columnHeader4
+            // 
+            columnHeader4.Text = "";
+            // 
             // toolStrip1
             // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButton1, toolStripButton2, toolStripButton4 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButton1, toolStripButton2, toolStripButton4, toolStripButton1 });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(800, 25);
@@ -151,6 +161,16 @@
             toolStripButton4.Size = new Size(97, 22);
             toolStripButton4.Text = "repeat search";
             toolStripButton4.Click += toolStripButton4_Click;
+            // 
+            // toolStripButton1
+            // 
+            toolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButton1.Image = Properties.Resources.arrow_turn_090;
+            toolStripButton1.ImageTransparentColor = Color.Magenta;
+            toolStripButton1.Name = "toolStripButton1";
+            toolStripButton1.Size = new Size(23, 22);
+            toolStripButton1.Text = "toolStripButton1";
+            toolStripButton1.Click += toolStripButton1_Click_1;
             // 
             // statusStrip1
             // 
@@ -202,5 +222,6 @@
         private ToolStripDropDownButton toolStripDropDownButton1;
         private ToolStripMenuItem byFileSelectionToolStripMenuItem;
         private ToolStripMenuItem manualToolStripMenuItem;
+        private ToolStripButton toolStripButton1;
     }
 }
