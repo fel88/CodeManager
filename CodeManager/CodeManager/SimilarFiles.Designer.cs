@@ -44,8 +44,12 @@
             toolStripDropDownButton2 = new ToolStripDropDownButton();
             searchByFileToolStripMenuItem = new ToolStripMenuItem();
             autoDetectToolStripMenuItem = new ToolStripMenuItem();
+            statusStrip1 = new StatusStrip();
+            toolStripProgressBar1 = new ToolStripProgressBar();
+            toolStripStatusLabel1 = new ToolStripStatusLabel();
             tableLayoutPanel1.SuspendLayout();
             toolStrip1.SuspendLayout();
+            statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -62,7 +66,7 @@
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(800, 425);
+            tableLayoutPanel1.Size = new Size(800, 403);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // listView2
@@ -71,9 +75,9 @@
             listView2.Dock = DockStyle.Fill;
             listView2.FullRowSelect = true;
             listView2.GridLines = true;
-            listView2.Location = new Point(3, 215);
+            listView2.Location = new Point(3, 204);
             listView2.Name = "listView2";
-            listView2.Size = new Size(222, 207);
+            listView2.Size = new Size(222, 196);
             listView2.TabIndex = 1;
             listView2.UseCompatibleStateImageBehavior = false;
             listView2.View = View.Details;
@@ -102,7 +106,7 @@
             listView1.GridLines = true;
             listView1.Location = new Point(3, 3);
             listView1.Name = "listView1";
-            listView1.Size = new Size(222, 206);
+            listView1.Size = new Size(222, 195);
             listView1.TabIndex = 0;
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
@@ -124,7 +128,7 @@
             panel1.Location = new Point(231, 3);
             panel1.Name = "panel1";
             tableLayoutPanel1.SetRowSpan(panel1, 2);
-            panel1.Size = new Size(566, 419);
+            panel1.Size = new Size(566, 397);
             panel1.TabIndex = 2;
             // 
             // toolStrip1
@@ -172,15 +176,35 @@
             // searchByFileToolStripMenuItem
             // 
             searchByFileToolStripMenuItem.Name = "searchByFileToolStripMenuItem";
-            searchByFileToolStripMenuItem.Size = new Size(180, 22);
+            searchByFileToolStripMenuItem.Size = new Size(143, 22);
             searchByFileToolStripMenuItem.Text = "search by file";
             searchByFileToolStripMenuItem.Click += searchByFileToolStripMenuItem_Click;
             // 
             // autoDetectToolStripMenuItem
             // 
             autoDetectToolStripMenuItem.Name = "autoDetectToolStripMenuItem";
-            autoDetectToolStripMenuItem.Size = new Size(180, 22);
+            autoDetectToolStripMenuItem.Size = new Size(143, 22);
             autoDetectToolStripMenuItem.Text = "auto detect";
+            // 
+            // statusStrip1
+            // 
+            statusStrip1.Items.AddRange(new ToolStripItem[] { toolStripProgressBar1, toolStripStatusLabel1 });
+            statusStrip1.Location = new Point(0, 428);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(800, 22);
+            statusStrip1.TabIndex = 2;
+            statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripProgressBar1
+            // 
+            toolStripProgressBar1.Name = "toolStripProgressBar1";
+            toolStripProgressBar1.Size = new Size(100, 16);
+            toolStripProgressBar1.Visible = false;
+            // 
+            // toolStripStatusLabel1
+            // 
+            toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            toolStripStatusLabel1.Size = new Size(0, 17);
             // 
             // SimilarFiles
             // 
@@ -189,11 +213,14 @@
             ClientSize = new Size(800, 450);
             Controls.Add(tableLayoutPanel1);
             Controls.Add(toolStrip1);
+            Controls.Add(statusStrip1);
             Name = "SimilarFiles";
             Text = "SimilarFiles";
             tableLayoutPanel1.ResumeLayout(false);
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -216,5 +243,8 @@
         private ToolStripMenuItem autoDetectToolStripMenuItem;
         private ColumnHeader columnHeader5;
         private Panel panel1;
+        private StatusStrip statusStrip1;
+        private ToolStripProgressBar toolStripProgressBar1;
+        private ToolStripStatusLabel toolStripStatusLabel1;
     }
 }

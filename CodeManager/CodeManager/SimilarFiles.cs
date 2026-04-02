@@ -50,12 +50,18 @@ namespace CodeManager
         }
 
         List<FileMatchBatchInfo> matches = new List<FileMatchBatchInfo>();
-        private void searchByFileToolStripMenuItem_Click(object sender, EventArgs e)
+        private async void searchByFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
 
+            var d = AutoDialog.DialogHelpers.StartDialog();
+            d.AddBoolField("sameNameOnly", "Same name only", false);
+            if (!d.ShowDialog())
+                return;
+
+            var sameNameOnly = d.GetBoolField("sameNameOnly");
             matches.Clear();
             var text1 = File.ReadAllText(ofd.FileName);
             string[] files = Directory.GetFiles(currentDir, lastMask, SearchOption.AllDirectories);
@@ -66,22 +72,42 @@ namespace CodeManager
 
 
             });
-            foreach (var item in files)
-            {
-                if (item == ofd.FileName)
-                    continue;
-                var text2 = File.ReadAllText(item);
-                var results = DiffUtil.Diff(text1, text2);
-                results = DiffUtil.Order(results, DiffOrderType.GreedyDeleteFirst);
-                var len = results.Where(z => z.Status == DiffStatus.Equal).Count();
-                var perc = len / (double)Math.Max(text1.Length, text2.Length);
-                var fr = matches.First();
+            toolStripProgressBar1.Visible = true;
+            toolStripProgressBar1.Value = 0;
+            toolStripProgressBar1.Maximum = files.Length;
+            toolStripStatusLabel1.Visible = true;
 
-                if (perc > 0.9)
+            await Task.Run(() =>
+            {
+                for (int i = 0; i < files.Length; i++)
                 {
-                    fr.Matches.Add(new FileMatchInfo(fr) { File = item, Match = perc });
+                    string? item = files[i];
+                    statusStrip1.Invoke(() =>
+                    {
+                        toolStripStatusLabel1.Text = $"{i} / {files.Length}";
+                        toolStripProgressBar1.Value = i;
+                    });
+                    if (item == ofd.FileName)
+                        continue;
+                    if (sameNameOnly && Path.GetFileName(item) != Path.GetFileName(ofd.FileName))
+                        continue;
+
+                    var text2 = File.ReadAllText(item);
+                    var results = DiffUtil.Diff(text1, text2);
+                    results = DiffUtil.Order(results, DiffOrderType.GreedyDeleteFirst);
+                    var len = results.Where(z => z.Status == DiffStatus.Equal).Count();
+                    var perc = len / (double)Math.Max(text1.Length, text2.Length);
+                    var fr = matches.First();
+
+                    if (perc > 0.9)
+                    {
+                        fr.Matches.Add(new FileMatchInfo(fr) { File = item, Match = perc });
+                    }
                 }
-            }
+            });
+            toolStripProgressBar1.Visible = false;
+            toolStripStatusLabel1.Visible = false;
+
 
             listView1.Items.Clear();
             foreach (var item in matches)
@@ -121,7 +147,7 @@ namespace CodeManager
 
             var b = listView2.Items[0].Tag as FileMatchInfo;
             dv.NewTextHeader = b.File;
-            dv.OldTextHeader= b.Parent.File;
+            dv.OldTextHeader = b.Parent.File;
             dv.NewText = File.ReadAllText(b.File);
             dv.OldText = File.ReadAllText(b.Parent.File);
         }
