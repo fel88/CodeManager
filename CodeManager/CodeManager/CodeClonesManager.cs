@@ -45,11 +45,7 @@ namespace CodeManager
         string[] linesToSearch;
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            Form f = new Form();
-            var rtb = new RichTextBox() { Dock = DockStyle.Fill };
-            f.Controls.Add(rtb);
-            f.ShowDialog();
-            linesToSearch = rtb.Lines;
+          
             search();
         }
         public List<LineMatch> Matches = new List<LineMatch>();
@@ -58,10 +54,19 @@ namespace CodeManager
             public string File;
             public int Line;
         }
+        string lastMask = "*.*";
         async void search()
         {
             var d = AutoDialog.DialogHelpers.StartDialog();
-            d.AddStringField("ext", "File mask", "*.*");
+            d.AddCustomDialogField("text", "Text to search", () =>
+            {
+                Form f = new Form();
+                var rtb = new RichTextBox() { Dock = DockStyle.Fill };
+                f.Controls.Add(rtb);
+                f.ShowDialog();
+                linesToSearch = rtb.Lines;
+            });
+            d.AddStringField("ext", "File mask", lastMask);
             d.AddOptionsField("mode", "Mode", ["full line trim", "contains"], 0);
             d.AddBoolField("exitOnFirst", "First match exit", false);
             if (!d.ShowDialog())
@@ -70,7 +75,8 @@ namespace CodeManager
             Matches.Clear();
             int mode = d.GetOptionsFieldIdx("mode");
             bool firstOnly = d.GetBoolField("exitOnFirst");
-            string[] files = Directory.GetFiles(currentDir, d.GetStringField("ext"), SearchOption.AllDirectories);
+            lastMask = d.GetStringField("ext");
+            string[] files = Directory.GetFiles(currentDir, lastMask, SearchOption.AllDirectories);
             listView1.Items.Clear();
             var trimmed = linesToSearch.Select(z => z.Trim()).ToArray();
 
