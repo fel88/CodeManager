@@ -36,6 +36,7 @@ namespace CodeManager
                 return;
 
             currentDir = Path.GetDirectoryName(ofd.FileName);
+            Text = currentDir;
         }
         string currentDir = "";
         string[] linesToSearch;
@@ -79,11 +80,22 @@ namespace CodeManager
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listView1.SelectedItems.Count == 0)            
+            if (listView1.SelectedItems.Count == 0)
                 return;
 
             ced.Text = File.ReadAllText(listView1.SelectedItems[0].Tag as string);
-            
+
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            var d = AutoDialog.DialogHelpers.StartDialog();
+            d.AddStringField("dir", "Dir", currentDir);
+            if (!d.ShowDialog())
+                return;
+
+            currentDir = d.GetStringField("dir");
+            Text = currentDir;
         }
     }
 }

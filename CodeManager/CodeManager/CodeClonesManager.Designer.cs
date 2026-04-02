@@ -36,6 +36,7 @@
             listView2 = new ListView();
             toolStrip1 = new ToolStrip();
             toolStripButton1 = new ToolStripButton();
+            toolStripButton3 = new ToolStripButton();
             toolStripButton2 = new ToolStripButton();
             tableLayoutPanel1.SuspendLayout();
             toolStrip1.SuspendLayout();
@@ -95,7 +96,7 @@
             // 
             // toolStrip1
             // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripButton1, toolStripButton2 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripButton1, toolStripButton3, toolStripButton2 });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(800, 25);
@@ -110,6 +111,15 @@
             toolStripButton1.Size = new Size(84, 22);
             toolStripButton1.Text = "load folder";
             toolStripButton1.Click += toolStripButton1_Click;
+            // 
+            // toolStripButton3
+            // 
+            toolStripButton3.Image = (Image)resources.GetObject("toolStripButton3.Image");
+            toolStripButton3.ImageTransparentColor = Color.Magenta;
+            toolStripButton3.Name = "toolStripButton3";
+            toolStripButton3.Size = new Size(76, 22);
+            toolStripButton3.Text = "set folder";
+            toolStripButton3.Click += toolStripButton3_Click;
             // 
             // toolStripButton2
             // 
@@ -146,5 +156,6 @@
         private ColumnHeader columnHeader2;
         private ToolStripButton toolStripButton2;
         private ListView listView2;
+        private ToolStripButton toolStripButton3;
     }
 }
