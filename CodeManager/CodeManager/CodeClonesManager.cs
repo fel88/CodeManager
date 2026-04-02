@@ -45,7 +45,7 @@ namespace CodeManager
         string[] linesToSearch;
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-          
+
             search();
         }
         public List<LineMatch> Matches = new List<LineMatch>();
@@ -55,6 +55,7 @@ namespace CodeManager
             public int Line;
         }
         string lastMask = "*.*";
+        bool strictLinesOrder = true;
         async void search()
         {
             var d = AutoDialog.DialogHelpers.StartDialog();
@@ -69,10 +70,12 @@ namespace CodeManager
             d.AddStringField("ext", "File mask", lastMask);
             d.AddOptionsField("mode", "Mode", ["full line trim", "contains"], 0);
             d.AddBoolField("exitOnFirst", "First match exit", false);
+            d.AddBoolField("strictLinesOrder", "Strict lines order", strictLinesOrder);
             if (!d.ShowDialog())
                 return;
 
             Matches.Clear();
+            strictLinesOrder = d.GetBoolField("strictLinesOrder");
             int mode = d.GetOptionsFieldIdx("mode");
             bool firstOnly = d.GetBoolField("exitOnFirst");
             lastMask = d.GetStringField("ext");
@@ -85,6 +88,7 @@ namespace CodeManager
                 int lineIdx = 0;
                 int index = 0;
                 bool first = true;
+                int firstLineIdx = 0;
                 await foreach (var line in File.ReadLinesAsync(item))
                 {
                     lineIdx++;
@@ -95,6 +99,8 @@ namespace CodeManager
                         res = line.Contains(trimmed[index], StringComparison.CurrentCultureIgnoreCase);
                     if (res)
                     {
+                        if (index == 0)
+                            firstLineIdx = lineIdx;
                         index++;
                         if (index == linesToSearch.Length)
                         {
@@ -107,13 +113,19 @@ namespace CodeManager
                             Matches.Add(new LineMatch()
                             {
                                 File = item,
-                                Line = lineIdx - linesToSearch.Length + 1
+                                //Line = lineIdx - linesToSearch.Length + 1
+                                Line = firstLineIdx
                             });
                             if (firstOnly)
                                 break;
                             index = 0;
                         }
 
+                    }
+                    else
+                    {
+                        if (strictLinesOrder)
+                            index = 0;
                     }
                 }
             }
