@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CodeClonesManager));
             tableLayoutPanel1 = new TableLayoutPanel();
             listView1 = new ListView();
             columnHeader1 = new ColumnHeader();
@@ -37,9 +36,11 @@
             columnHeader3 = new ColumnHeader();
             columnHeader4 = new ColumnHeader();
             toolStrip1 = new ToolStrip();
-            toolStripButton1 = new ToolStripButton();
-            toolStripButton3 = new ToolStripButton();
+            toolStripDropDownButton1 = new ToolStripDropDownButton();
+            byFileSelectionToolStripMenuItem = new ToolStripMenuItem();
+            manualToolStripMenuItem = new ToolStripMenuItem();
             toolStripButton2 = new ToolStripButton();
+            toolStripButton4 = new ToolStripButton();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             tableLayoutPanel1.SuspendLayout();
@@ -103,39 +104,53 @@
             // 
             // toolStrip1
             // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripButton1, toolStripButton3, toolStripButton2 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButton1, toolStripButton2, toolStripButton4 });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(800, 25);
             toolStrip1.TabIndex = 1;
             toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
+            // toolStripDropDownButton1
             // 
-            toolStripButton1.Image = (Image)resources.GetObject("toolStripButton1.Image");
-            toolStripButton1.ImageTransparentColor = Color.Magenta;
-            toolStripButton1.Name = "toolStripButton1";
-            toolStripButton1.Size = new Size(84, 22);
-            toolStripButton1.Text = "load folder";
-            toolStripButton1.Click += toolStripButton1_Click;
+            toolStripDropDownButton1.DropDownItems.AddRange(new ToolStripItem[] { byFileSelectionToolStripMenuItem, manualToolStripMenuItem });
+            toolStripDropDownButton1.Image = Properties.Resources.folder_open;
+            toolStripDropDownButton1.ImageTransparentColor = Color.Magenta;
+            toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+            toolStripDropDownButton1.Size = new Size(114, 22);
+            toolStripDropDownButton1.Text = "set work folder";
             // 
-            // toolStripButton3
+            // byFileSelectionToolStripMenuItem
             // 
-            toolStripButton3.Image = (Image)resources.GetObject("toolStripButton3.Image");
-            toolStripButton3.ImageTransparentColor = Color.Magenta;
-            toolStripButton3.Name = "toolStripButton3";
-            toolStripButton3.Size = new Size(76, 22);
-            toolStripButton3.Text = "set folder";
-            toolStripButton3.Click += toolStripButton3_Click;
+            byFileSelectionToolStripMenuItem.Name = "byFileSelectionToolStripMenuItem";
+            byFileSelectionToolStripMenuItem.Size = new Size(156, 22);
+            byFileSelectionToolStripMenuItem.Text = "by file selection";
+            byFileSelectionToolStripMenuItem.Click += byFileSelectionToolStripMenuItem_Click;
+            // 
+            // manualToolStripMenuItem
+            // 
+            manualToolStripMenuItem.Name = "manualToolStripMenuItem";
+            manualToolStripMenuItem.Size = new Size(156, 22);
+            manualToolStripMenuItem.Text = "manual";
+            manualToolStripMenuItem.Click += manualToolStripMenuItem_Click;
             // 
             // toolStripButton2
             // 
-            toolStripButton2.Image = (Image)resources.GetObject("toolStripButton2.Image");
+            toolStripButton2.Image = Properties.Resources.magnifier_zoom;
             toolStripButton2.ImageTransparentColor = Color.Magenta;
             toolStripButton2.Name = "toolStripButton2";
-            toolStripButton2.Size = new Size(111, 22);
-            toolStripButton2.Text = "search multiline";
+            toolStripButton2.Size = new Size(61, 22);
+            toolStripButton2.Text = "search";
             toolStripButton2.Click += toolStripButton2_Click;
+            // 
+            // toolStripButton4
+            // 
+            toolStripButton4.Image = Properties.Resources.arrow_circle_315;
+            toolStripButton4.ImageTransparentColor = Color.Magenta;
+            toolStripButton4.Name = "toolStripButton4";
+            toolStripButton4.Size = new Size(97, 22);
+            toolStripButton4.Text = "repeat search";
+            toolStripButton4.Click += toolStripButton4_Click;
             // 
             // statusStrip1
             // 
@@ -174,16 +189,18 @@
 
         private TableLayoutPanel tableLayoutPanel1;
         private ToolStrip toolStrip1;
-        private ToolStripButton toolStripButton1;
         private ListView listView1;
         private ColumnHeader columnHeader1;
         private ColumnHeader columnHeader2;
         private ToolStripButton toolStripButton2;
         private ListView listView2;
-        private ToolStripButton toolStripButton3;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel1;
         private ColumnHeader columnHeader3;
         private ColumnHeader columnHeader4;
+        private ToolStripButton toolStripButton4;
+        private ToolStripDropDownButton toolStripDropDownButton1;
+        private ToolStripMenuItem byFileSelectionToolStripMenuItem;
+        private ToolStripMenuItem manualToolStripMenuItem;
     }
 }

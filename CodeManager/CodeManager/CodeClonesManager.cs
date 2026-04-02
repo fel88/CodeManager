@@ -34,29 +34,11 @@ namespace CodeManager
         CodeEditor ced;
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            if (ofd.ShowDialog() != DialogResult.OK)
-                return;
 
-            currentDir = System.IO.Path.GetDirectoryName(ofd.FileName);
-            Text = currentDir;
         }
         string currentDir = "";
         string[] linesToSearch;
         private void toolStripButton2_Click(object sender, EventArgs e)
-        {
-
-            search();
-        }
-        public List<LineMatch> Matches = new List<LineMatch>();
-        public class LineMatch
-        {
-            public string File;
-            public int Line;
-        }
-        string lastMask = "*.*";
-        bool strictLinesOrder = true;
-        async void search()
         {
             var d = AutoDialog.DialogHelpers.StartDialog();
             d.AddCustomDialogField("text", "Text to search", () =>
@@ -68,17 +50,34 @@ namespace CodeManager
                 linesToSearch = rtb.Lines;
             });
             d.AddStringField("ext", "File mask", lastMask);
-            d.AddOptionsField("mode", "Mode", ["full line trim", "contains"], 0);
-            d.AddBoolField("exitOnFirst", "First match exit", false);
+            d.AddOptionsField("mode", "Mode", ["full line trim", "contains"], modeIdx);
+            d.AddBoolField("exitOnFirst", "First match exit", firstMatchExit);
             d.AddBoolField("strictLinesOrder", "Strict lines order", strictLinesOrder);
             if (!d.ShowDialog())
                 return;
 
-            Matches.Clear();
+
             strictLinesOrder = d.GetBoolField("strictLinesOrder");
-            int mode = d.GetOptionsFieldIdx("mode");
-            bool firstOnly = d.GetBoolField("exitOnFirst");
+            modeIdx = d.GetOptionsFieldIdx("mode");
+            firstMatchExit = d.GetBoolField("exitOnFirst");
             lastMask = d.GetStringField("ext");
+            search();
+        }
+
+        public List<LineMatch> Matches = new List<LineMatch>();
+        public class LineMatch
+        {
+            public string File;
+            public int Line;
+        }
+        string lastMask = "*.*";
+        bool strictLinesOrder = true;
+        int modeIdx = 0;
+        bool firstMatchExit = false;
+        async void search()
+        {
+
+            Matches.Clear();
             string[] files = Directory.GetFiles(currentDir, lastMask, SearchOption.AllDirectories);
             listView1.Items.Clear();
             var trimmed = linesToSearch.Select(z => z.Trim()).ToArray();
@@ -93,9 +92,9 @@ namespace CodeManager
                 {
                     lineIdx++;
                     bool res = false;
-                    if (mode == 0)
+                    if (modeIdx == 0)
                         res = line.Trim().Equals(trimmed[index], StringComparison.CurrentCultureIgnoreCase);
-                    else if (mode == 1)
+                    else if (modeIdx == 1)
                         res = line.Contains(trimmed[index], StringComparison.CurrentCultureIgnoreCase);
                     if (res)
                     {
@@ -116,7 +115,7 @@ namespace CodeManager
                                 //Line = lineIdx - linesToSearch.Length + 1
                                 Line = firstLineIdx
                             });
-                            if (firstOnly)
+                            if (firstMatchExit)
                                 break;
                             index = 0;
                         }
@@ -157,13 +156,7 @@ namespace CodeManager
 
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            var d = AutoDialog.DialogHelpers.StartDialog();
-            d.AddStringField("dir", "Dir", currentDir);
-            if (!d.ShowDialog())
-                return;
 
-            currentDir = d.GetStringField("dir");
-            Text = currentDir;
         }
 
         void NavigateTo(LineMatch lm)
@@ -188,6 +181,32 @@ namespace CodeManager
             var lm = listView2.SelectedItems[0].Tag as LineMatch;
             NavigateTo(lm);
 
+        }
+
+        private void manualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var d = AutoDialog.DialogHelpers.StartDialog();
+            d.AddStringField("dir", "Dir", currentDir);
+            if (!d.ShowDialog())
+                return;
+
+            currentDir = d.GetStringField("dir");
+            Text = currentDir;
+        }
+
+        private void byFileSelectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() != DialogResult.OK)
+                return;
+
+            currentDir = System.IO.Path.GetDirectoryName(ofd.FileName);
+            Text = currentDir;
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            search();
         }
     }
 }
