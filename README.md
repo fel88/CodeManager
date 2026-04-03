@@ -2,4 +2,4 @@
 
 Tool to search/monitor similar files and code clones
 
-<img width="1367" height="707" alt="image" src="https://github.com/user-attachments/assets/84c24e7c-4f2e-4d93-8185-efe31a893113" />
+<img width="1278" height="620" alt="image" src="https://github.com/user-attachments/assets/5b4a0bd2-ce8c-47d7-9ec0-6fd4ab0ca685" />
