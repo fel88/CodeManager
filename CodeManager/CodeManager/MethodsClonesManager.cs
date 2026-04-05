@@ -66,6 +66,9 @@ namespace CodeManager
                     if (!name.Contains(textBox1.Text, StringComparison.OrdinalIgnoreCase))
                         continue;
 
+                if (item.Items.Count < minumumClones)
+                    continue;
+
                 listView1.Items.Add(new System.Windows.Forms.ListViewItem(new string[] { name, item.Method.GetType().Name }) { Tag = item });
             }
         }
@@ -262,14 +265,14 @@ namespace CodeManager
 
             if (selectedMethodInfo == null)
                 return;
-            
+
             if (MessageBox.Show("Are you sure you want to modify selected files?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
 
             int modified = 0;
             for (int i = 0; i < listView2.SelectedItems.Count; i++)
             {
-                var b = listView2.SelectedItems[i].Tag as MethodInfoItem;                
+                var b = listView2.SelectedItems[i].Tag as MethodInfoItem;
                 var code = File.ReadAllText(b.File);
                 if (autoFormat)
                     code = NormalizeCodeWithRoslyn(code);
@@ -280,7 +283,7 @@ namespace CodeManager
             }
 
             UpdateList2();
-            
+
             MessageBox.Show($"{modified} files were modified", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
         }
@@ -345,6 +348,20 @@ namespace CodeManager
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            UpdateList();
+        }
+
+        int minumumClones = 0;
+        private void button1_Click(object sender, EventArgs e)
+        {
+            var d = AutoDialog.DialogHelpers.StartDialog();
+
+            d.AddInt("clones", "Minimum clones", minumumClones);
+
+            if (!d.ShowDialog())
+                return;
+
+            minumumClones = d.GetInt("clones");
             UpdateList();
         }
     }

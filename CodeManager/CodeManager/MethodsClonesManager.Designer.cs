@@ -42,6 +42,7 @@
             columnHeader2 = new ColumnHeader();
             panel1 = new Panel();
             panel2 = new Panel();
+            button1 = new Button();
             textBox1 = new TextBox();
             toolStrip1 = new ToolStrip();
             toolStripDropDownButton1 = new ToolStripDropDownButton();
@@ -170,6 +171,7 @@
             // 
             // panel2
             // 
+            panel2.Controls.Add(button1);
             panel2.Controls.Add(textBox1);
             panel2.Dock = DockStyle.Fill;
             panel2.Location = new Point(3, 3);
@@ -177,12 +179,23 @@
             panel2.Size = new Size(222, 24);
             panel2.TabIndex = 3;
             // 
+            // button1
+            // 
+            button1.Dock = DockStyle.Right;
+            button1.Image = Properties.Resources.gear;
+            button1.Location = new Point(178, 0);
+            button1.Name = "button1";
+            button1.Size = new Size(44, 24);
+            button1.TabIndex = 0;
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // textBox1
             // 
-            textBox1.Dock = DockStyle.Fill;
+            textBox1.Dock = DockStyle.Left;
             textBox1.Location = new Point(0, 0);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(222, 23);
+            textBox1.Size = new Size(185, 23);
             textBox1.TabIndex = 4;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
@@ -345,5 +358,6 @@
         private ToolStripButton toolStripButton3;
         private Panel panel2;
         private TextBox textBox1;
+        private Button button1;
     }
 }
