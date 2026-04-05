@@ -52,9 +52,31 @@ namespace CodeManager
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
 
-            currentDir = Path.GetDirectoryName(ofd.FileName);
-            string[] files = Directory.GetFiles(currentDir, lastMask, SearchOption.AllDirectories);
             List<MethodInfo> allMethods = new List<MethodInfo>();
+
+            var code = File.ReadAllText(ofd.FileName);
+            // 1. Generate the AST
+            SyntaxTree tree = CSharpSyntaxTree.ParseText(code);
+            CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
+            // 2. Extract all methods
+            var methods = root.DescendantNodes()
+                              .OfType<MethodDeclarationSyntax>();
+            foreach (var item in methods)
+            {
+                allMethods.Add(new MethodInfo()
+                {
+                    Method = item,
+                    Items = new List<MethodInfoItem>() { new MethodInfoItem (){
+
+                                    File=ofd.FileName,
+                        Method=item
+                                }}
+                });
+                listView1.Items.Add(new ListViewItem(new string[] { item.Identifier.Text }) { Tag = allMethods.Last() });
+            }
+
+            string[] files = Directory.GetFiles(currentDir, lastMask, SearchOption.AllDirectories);
+            files = files.Except([ofd.FileName]).ToArray();
             toolStripProgressBar1.Visible = true;
             toolStripProgressBar1.Value = 0;
             toolStripProgressBar1.Maximum = files.Length;
@@ -66,6 +88,7 @@ namespace CodeManager
                 for (int i = 0; i < files.Length; i++)
                 {
                     string file = files[i];
+                    
                     statusStrip1.Invoke(() =>
                     {
                         toolStripStatusLabel1.Text = $"{i} / {files.Length}";
@@ -91,15 +114,7 @@ namespace CodeManager
                             }
                             else
                             {
-                                allMethods.Add(new MethodInfo()
-                                {
-                                    Method = item,
-                                    Items = new List<MethodInfoItem>() { new MethodInfoItem (){
 
-                                    File=file,Method=item
-                                }}
-                                });
-                                listView1.Items.Add(new ListViewItem(new string[] { item.Identifier.Text }) { Tag = allMethods.Last() });
                             }
                         }
 
