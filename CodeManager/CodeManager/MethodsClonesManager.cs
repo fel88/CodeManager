@@ -10,6 +10,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -45,6 +46,15 @@ namespace CodeManager
             public string File;
             public MethodDeclarationSyntax Method;
         }
+        List<MethodInfo> allMethods = new List<MethodInfo>();
+        void UpdateList()
+        {
+            listView1.Items.Clear();
+            foreach (var item in allMethods)
+            {
+                listView1.Items.Add(new ListViewItem(new string[] { item.Method.Identifier.Text }) { Tag = item });
+            }
+        }
 
         private async void search()
         {
@@ -52,8 +62,7 @@ namespace CodeManager
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
 
-            List<MethodInfo> allMethods = new List<MethodInfo>();
-
+            allMethods.Clear();
             var code = File.ReadAllText(ofd.FileName);
             // 1. Generate the AST
             SyntaxTree tree = CSharpSyntaxTree.ParseText(code);
@@ -72,7 +81,7 @@ namespace CodeManager
                         Method=item
                                 }}
                 });
-                listView1.Items.Add(new ListViewItem(new string[] { item.Identifier.Text }) { Tag = allMethods.Last() });
+                //listView1.Items.Add(new ListViewItem(new string[] { item.Identifier.Text }) { Tag = allMethods.Last() });
             }
 
             string[] files = Directory.GetFiles(currentDir, lastMask, SearchOption.AllDirectories);
@@ -88,7 +97,7 @@ namespace CodeManager
                 for (int i = 0; i < files.Length; i++)
                 {
                     string file = files[i];
-                    
+
                     statusStrip1.Invoke(() =>
                     {
                         toolStripStatusLabel1.Text = $"{i} / {files.Length}";
@@ -130,7 +139,8 @@ namespace CodeManager
             });
             toolStripProgressBar1.Visible = false;
             toolStripStatusLabel1.Visible = false;
-
+            allMethods.RemoveAll(z => z.Items.Count < 2);
+            UpdateList();
         }
 
         private void setDirectoryFromFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -187,6 +197,43 @@ namespace CodeManager
                 ced.textEditor.Select(index, searchText.Length);
                 ced.textEditor.ScrollToLine(ced.textEditor.Document.GetLineByOffset(index).LineNumber);
             }
+        }
+
+        private void removeFromSourceFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listView2.SelectedItems.Count == 0)
+                return;
+
+            if (MessageBox.Show("Are you sure you want to modify selected files?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                return;
+
+            int modified = 0;
+            for (int i = 0; i < listView2.SelectedItems.Count; i++)
+            {
+                var b = listView2.SelectedItems[i].Tag as MethodInfoItem;
+                var code = File.ReadAllText(b.File);
+                code = code.Replace(b.Method.ToFullString(), string.Empty);
+                File.WriteAllText(b.File, code);
+                modified++;
+            }
+            for (int i = 0; i < listView2.SelectedItems.Count; i++)
+                listView2.Items.Remove(listView2.SelectedItems[i]);
+
+            MessageBox.Show($"{modified} files were modified", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            var d = AutoDialog.DialogHelpers.StartDialog();
+
+            d.AddStringField("ext", "File mask", lastMask);
+
+            if (!d.ShowDialog())
+                return;
+
+
+            lastMask = d.GetStringField("ext");
         }
     }
 }

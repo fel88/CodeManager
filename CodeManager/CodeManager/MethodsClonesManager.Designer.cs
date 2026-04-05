@@ -28,11 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             tableLayoutPanel1 = new TableLayoutPanel();
             listView2 = new ListView();
             columnHeader3 = new ColumnHeader();
             columnHeader4 = new ColumnHeader();
             columnHeader5 = new ColumnHeader();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            removeFromSourceFileToolStripMenuItem = new ToolStripMenuItem();
             listView1 = new ListView();
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
@@ -45,11 +48,13 @@
             searchByFileToolStripMenuItem = new ToolStripMenuItem();
             autoDetectToolStripMenuItem = new ToolStripMenuItem();
             toolStripButton1 = new ToolStripButton();
+            toolStripButton2 = new ToolStripButton();
             statusStrip1 = new StatusStrip();
             toolStripProgressBar1 = new ToolStripProgressBar();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             toolStripStatusLabel2 = new ToolStripStatusLabel();
             tableLayoutPanel1.SuspendLayout();
+            contextMenuStrip1.SuspendLayout();
             toolStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -74,6 +79,7 @@
             // listView2
             // 
             listView2.Columns.AddRange(new ColumnHeader[] { columnHeader3, columnHeader4, columnHeader5 });
+            listView2.ContextMenuStrip = contextMenuStrip1;
             listView2.Dock = DockStyle.Fill;
             listView2.FullRowSelect = true;
             listView2.GridLines = true;
@@ -99,6 +105,20 @@
             // 
             columnHeader5.Text = "Match (%)";
             columnHeader5.Width = 100;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { removeFromSourceFileToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(201, 48);
+            // 
+            // removeFromSourceFileToolStripMenuItem
+            // 
+            removeFromSourceFileToolStripMenuItem.Image = Properties.Resources.scissors_blue;
+            removeFromSourceFileToolStripMenuItem.Name = "removeFromSourceFileToolStripMenuItem";
+            removeFromSourceFileToolStripMenuItem.Size = new Size(200, 22);
+            removeFromSourceFileToolStripMenuItem.Text = "remove from source file";
+            removeFromSourceFileToolStripMenuItem.Click += removeFromSourceFileToolStripMenuItem_Click;
             // 
             // listView1
             // 
@@ -135,7 +155,7 @@
             // 
             // toolStrip1
             // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButton1, toolStripDropDownButton2, toolStripButton1 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButton1, toolStripDropDownButton2, toolStripButton1, toolStripButton2 });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(800, 25);
@@ -177,14 +197,14 @@
             // searchByFileToolStripMenuItem
             // 
             searchByFileToolStripMenuItem.Name = "searchByFileToolStripMenuItem";
-            searchByFileToolStripMenuItem.Size = new Size(143, 22);
+            searchByFileToolStripMenuItem.Size = new Size(180, 22);
             searchByFileToolStripMenuItem.Text = "search by file";
             searchByFileToolStripMenuItem.Click += searchByFileToolStripMenuItem_Click;
             // 
             // autoDetectToolStripMenuItem
             // 
             autoDetectToolStripMenuItem.Name = "autoDetectToolStripMenuItem";
-            autoDetectToolStripMenuItem.Size = new Size(143, 22);
+            autoDetectToolStripMenuItem.Size = new Size(180, 22);
             autoDetectToolStripMenuItem.Text = "auto detect";
             // 
             // toolStripButton1
@@ -196,6 +216,15 @@
             toolStripButton1.Size = new Size(23, 22);
             toolStripButton1.Text = "toolStripButton1";
             toolStripButton1.Click += toolStripButton1_Click;
+            // 
+            // toolStripButton2
+            // 
+            toolStripButton2.Image = Properties.Resources.funnel__plus;
+            toolStripButton2.ImageTransparentColor = Color.Magenta;
+            toolStripButton2.Name = "toolStripButton2";
+            toolStripButton2.Size = new Size(53, 22);
+            toolStripButton2.Text = "Filter";
+            toolStripButton2.Click += toolStripButton2_Click;
             // 
             // statusStrip1
             // 
@@ -233,6 +262,7 @@
             Name = "MethodsClonesManager";
             Text = "MethodsClonesManager";
             tableLayoutPanel1.ResumeLayout(false);
+            contextMenuStrip1.ResumeLayout(false);
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             statusStrip1.ResumeLayout(false);
@@ -264,5 +294,8 @@
         private ToolStripProgressBar toolStripProgressBar1;
         private ToolStripStatusLabel toolStripStatusLabel1;
         private ToolStripStatusLabel toolStripStatusLabel2;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem removeFromSourceFileToolStripMenuItem;
+        private ToolStripButton toolStripButton2;
     }
 }

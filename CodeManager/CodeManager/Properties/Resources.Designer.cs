@@ -123,9 +123,29 @@ namespace CodeManager.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap funnel__plus {
+            get {
+                object obj = ResourceManager.GetObject("funnel--plus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap magnifier_zoom {
             get {
                 object obj = ResourceManager.GetObject("magnifier-zoom", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap scissors_blue {
+            get {
+                object obj = ResourceManager.GetObject("scissors-blue", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
