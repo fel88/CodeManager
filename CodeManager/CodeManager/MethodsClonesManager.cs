@@ -166,6 +166,7 @@ namespace CodeManager
             {
                 listView2.Items.Add(new ListViewItem(new string[] { Path.GetFileName(item.File), Path.GetRelativePath(currentDir, item.File), item.Method.Span.Start.ToString() }) { Tag = item });
             }
+            toolStripStatusLabel2.Text = $"{b.Items.Count()} clones";
         }
 
         private void listView2_SelectedIndexChanged(object sender, EventArgs e)
