@@ -20,5 +20,12 @@ namespace CodeManager
             ccm.MdiParent = this;
             ccm.Show();
         }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            MethodsClonesManager ccm = new MethodsClonesManager();
+            ccm.MdiParent = this;
+            ccm.Show();
+        }
     }
 }
