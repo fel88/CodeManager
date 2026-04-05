@@ -36,10 +36,13 @@
             columnHeader5 = new ColumnHeader();
             contextMenuStrip1 = new ContextMenuStrip(components);
             removeFromSourceFileToolStripMenuItem = new ToolStripMenuItem();
+            showInExpolrerToolStripMenuItem = new ToolStripMenuItem();
             listView1 = new ListView();
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
             panel1 = new Panel();
+            panel2 = new Panel();
+            textBox1 = new TextBox();
             toolStrip1 = new ToolStrip();
             toolStripDropDownButton1 = new ToolStripDropDownButton();
             setDirectoryFromFileToolStripMenuItem = new ToolStripMenuItem();
@@ -49,12 +52,14 @@
             autoDetectToolStripMenuItem = new ToolStripMenuItem();
             toolStripButton1 = new ToolStripButton();
             toolStripButton2 = new ToolStripButton();
+            toolStripButton3 = new ToolStripButton();
             statusStrip1 = new StatusStrip();
             toolStripProgressBar1 = new ToolStripProgressBar();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
             toolStripStatusLabel2 = new ToolStripStatusLabel();
             tableLayoutPanel1.SuspendLayout();
             contextMenuStrip1.SuspendLayout();
+            panel2.SuspendLayout();
             toolStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -62,15 +67,17 @@
             // tableLayoutPanel1
             // 
             tableLayoutPanel1.ColumnCount = 2;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 28.5714283F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 28.57143F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 71.42857F));
-            tableLayoutPanel1.Controls.Add(listView2, 0, 1);
-            tableLayoutPanel1.Controls.Add(listView1, 0, 0);
+            tableLayoutPanel1.Controls.Add(listView2, 0, 2);
+            tableLayoutPanel1.Controls.Add(listView1, 0, 1);
             tableLayoutPanel1.Controls.Add(panel1, 1, 0);
+            tableLayoutPanel1.Controls.Add(panel2, 0, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 25);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowCount = 3;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.Size = new Size(800, 403);
@@ -83,9 +90,9 @@
             listView2.Dock = DockStyle.Fill;
             listView2.FullRowSelect = true;
             listView2.GridLines = true;
-            listView2.Location = new Point(3, 204);
+            listView2.Location = new Point(3, 219);
             listView2.Name = "listView2";
-            listView2.Size = new Size(222, 196);
+            listView2.Size = new Size(222, 181);
             listView2.TabIndex = 1;
             listView2.UseCompatibleStateImageBehavior = false;
             listView2.View = View.Details;
@@ -108,7 +115,7 @@
             // 
             // contextMenuStrip1
             // 
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { removeFromSourceFileToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { removeFromSourceFileToolStripMenuItem, showInExpolrerToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.Size = new Size(201, 48);
             // 
@@ -120,15 +127,23 @@
             removeFromSourceFileToolStripMenuItem.Text = "remove from source file";
             removeFromSourceFileToolStripMenuItem.Click += removeFromSourceFileToolStripMenuItem_Click;
             // 
+            // showInExpolrerToolStripMenuItem
+            // 
+            showInExpolrerToolStripMenuItem.Image = Properties.Resources.folder_horizontal_open;
+            showInExpolrerToolStripMenuItem.Name = "showInExpolrerToolStripMenuItem";
+            showInExpolrerToolStripMenuItem.Size = new Size(200, 22);
+            showInExpolrerToolStripMenuItem.Text = "show in expolrer";
+            showInExpolrerToolStripMenuItem.Click += showInExpolrerToolStripMenuItem_Click;
+            // 
             // listView1
             // 
             listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2 });
             listView1.Dock = DockStyle.Fill;
             listView1.FullRowSelect = true;
             listView1.GridLines = true;
-            listView1.Location = new Point(3, 3);
+            listView1.Location = new Point(3, 33);
             listView1.Name = "listView1";
-            listView1.Size = new Size(222, 195);
+            listView1.Size = new Size(222, 180);
             listView1.TabIndex = 0;
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
@@ -149,13 +164,31 @@
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(231, 3);
             panel1.Name = "panel1";
-            tableLayoutPanel1.SetRowSpan(panel1, 2);
+            tableLayoutPanel1.SetRowSpan(panel1, 3);
             panel1.Size = new Size(566, 397);
             panel1.TabIndex = 2;
             // 
+            // panel2
+            // 
+            panel2.Controls.Add(textBox1);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(3, 3);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(222, 24);
+            panel2.TabIndex = 3;
+            // 
+            // textBox1
+            // 
+            textBox1.Dock = DockStyle.Fill;
+            textBox1.Location = new Point(0, 0);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(222, 23);
+            textBox1.TabIndex = 4;
+            textBox1.TextChanged += textBox1_TextChanged;
+            // 
             // toolStrip1
             // 
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButton1, toolStripDropDownButton2, toolStripButton1, toolStripButton2 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripDropDownButton1, toolStripDropDownButton2, toolStripButton1, toolStripButton2, toolStripButton3 });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(800, 25);
@@ -197,14 +230,14 @@
             // searchByFileToolStripMenuItem
             // 
             searchByFileToolStripMenuItem.Name = "searchByFileToolStripMenuItem";
-            searchByFileToolStripMenuItem.Size = new Size(180, 22);
+            searchByFileToolStripMenuItem.Size = new Size(143, 22);
             searchByFileToolStripMenuItem.Text = "search by file";
             searchByFileToolStripMenuItem.Click += searchByFileToolStripMenuItem_Click;
             // 
             // autoDetectToolStripMenuItem
             // 
             autoDetectToolStripMenuItem.Name = "autoDetectToolStripMenuItem";
-            autoDetectToolStripMenuItem.Size = new Size(180, 22);
+            autoDetectToolStripMenuItem.Size = new Size(143, 22);
             autoDetectToolStripMenuItem.Text = "auto detect";
             // 
             // toolStripButton1
@@ -225,6 +258,15 @@
             toolStripButton2.Size = new Size(53, 22);
             toolStripButton2.Text = "Filter";
             toolStripButton2.Click += toolStripButton2_Click;
+            // 
+            // toolStripButton3
+            // 
+            toolStripButton3.Image = Properties.Resources.arrow_circle_315;
+            toolStripButton3.ImageTransparentColor = Color.Magenta;
+            toolStripButton3.Name = "toolStripButton3";
+            toolStripButton3.Size = new Size(97, 22);
+            toolStripButton3.Text = "repeat serach";
+            toolStripButton3.Click += toolStripButton3_Click;
             // 
             // statusStrip1
             // 
@@ -263,6 +305,8 @@
             Text = "MethodsClonesManager";
             tableLayoutPanel1.ResumeLayout(false);
             contextMenuStrip1.ResumeLayout(false);
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             statusStrip1.ResumeLayout(false);
@@ -297,5 +341,9 @@
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem removeFromSourceFileToolStripMenuItem;
         private ToolStripButton toolStripButton2;
+        private ToolStripMenuItem showInExpolrerToolStripMenuItem;
+        private ToolStripButton toolStripButton3;
+        private Panel panel2;
+        private TextBox textBox1;
     }
 }
