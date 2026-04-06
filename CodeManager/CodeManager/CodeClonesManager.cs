@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace CodeManager
@@ -158,12 +159,35 @@ namespace CodeManager
         {
 
         }
+        public void SelectLines(TextEditor editor, int startLine, int endLine)
+        {
+            // Ensure line numbers are within valid range (1-based index)
+            if (startLine < 1)
+                startLine = 1;
+
+            if (endLine > editor.Document.LineCount)
+                endLine = editor.Document.LineCount;
+
+            // Get the start of the first line
+            var firstLine = editor.Document.GetLineByNumber(startLine);
+            // Get the end of the last line (including its length)
+            var lastLine = editor.Document.GetLineByNumber(endLine);
+
+            int selectionStart = firstLine.Offset;
+            int selectionLength = (lastLine.Offset + lastLine.Length) - selectionStart;
+
+            // Apply the selection
+            editor.Select(selectionStart, selectionLength);
+
+            // Optional: Scroll to the selection
+            editor.ScrollToLine(startLine);
+        }
 
         void NavigateTo(LineMatch lm)
         {
-
+            SelectLines(ced.textEditor, lm.Line, lm.Line + linesToSearch.Length - 1);
             //rtb.textEditor.ScrollToLine(Line);
-
+            return;
             TextView textView = ced.textEditor.TextArea.TextView;
             var visualTop = textView.GetVisualTopByDocumentLine(lm.Line);
             ced.textEditor.ScrollToVerticalOffset(visualTop);

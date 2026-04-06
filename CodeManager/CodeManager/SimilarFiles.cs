@@ -55,22 +55,11 @@ namespace CodeManager
 
 
             // Calculate similarity based on the longer string to account for additions/deletions
-            int maxLength = Math.Max(CountLines(oldText), CountLines(newText));
+            int maxLength = Math.Max(oldText.CountLines(), newText.CountLines());
             return (unchangedCharacters / maxLength);
         }
 
-        public static int CountLines(string text)
-        {
-            if (string.IsNullOrEmpty(text))
-                return 0;
 
-            int count = 1;
-            for (int i = 0; i < text.Length; i++)
-            {
-                if (text[i] == '\n') count++;
-            }
-            return count;
-        }
 
 
         List<FileMatchBatchInfo> matches = new List<FileMatchBatchInfo>();

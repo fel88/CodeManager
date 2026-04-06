@@ -38,27 +38,27 @@ namespace CodeManager
         string currentDir = "";
         string lastMask = "*.cs";
 
-        public class MethodInfo
+        public class NodeInfo
         {
-            public List<MethodInfoItem> Items = new List<MethodInfoItem>();
-            public SyntaxNode Method;
+            public List<NodeInfoItem> Items = new List<NodeInfoItem>();
+            public SyntaxNode Node;
         }
 
-        public class MethodInfoItem
+        public class NodeInfoItem
         {
             public string File;
-            public SyntaxNode Method;
+            public SyntaxNode Node;
         }
-        List<MethodInfo> allNodes = new List<MethodInfo>();
+        List<NodeInfo> allNodes = new List<NodeInfo>();
         void UpdateList()
         {
             listView1.Items.Clear();
             foreach (var item in allNodes)
             {
-                var name = item.Method.ToString();
+                var name = item.Node.ToString();
                 if (name.IndexOf('\n') >= 0)
                     name = name.Substring(0, name.IndexOf("\n"));
-                if (item.Method is MethodDeclarationSyntax mds)
+                if (item.Node is MethodDeclarationSyntax mds)
                 {
                     name = mds.Identifier.Text;
                 }
@@ -69,7 +69,9 @@ namespace CodeManager
                 if (item.Items.Count < minumumClones)
                     continue;
 
-                listView1.Items.Add(new System.Windows.Forms.ListViewItem(new string[] { name, item.Method.GetType().Name }) { Tag = item });
+                listView1.Items.Add(new System.Windows.Forms.ListViewItem(new string[] { name, item.Node.GetType().Name,
+                item.Node.ToFullString().CountLines().ToString()})
+                { Tag = item });
             }
         }
 
@@ -88,7 +90,8 @@ namespace CodeManager
             //.OfType<MethodDeclarationSyntax>();
             foreach (var item in nodes)
             {
-                if (!(item is MethodDeclarationSyntax mds || item is PropertyDeclarationSyntax || item is FieldDeclarationSyntax))
+                if (!(item is MethodDeclarationSyntax mds || item is PropertyDeclarationSyntax || item is FieldDeclarationSyntax
+                    || item is EnumDeclarationSyntax || item is ClassDeclarationSyntax))
                     continue;
 
                 if (!searchFields && item is FieldDeclarationSyntax)
@@ -100,13 +103,19 @@ namespace CodeManager
                 if (!searchProps && item is PropertyDeclarationSyntax)
                     continue;
 
-                allNodes.Add(new MethodInfo()
+                if (!searchEnums && item is EnumDeclarationSyntax)
+                    continue;
+
+                if (!searchClasses && item is ClassDeclarationSyntax)
+                    continue;
+
+                allNodes.Add(new NodeInfo()
                 {
-                    Method = item,
-                    Items = new List<MethodInfoItem>() { new MethodInfoItem (){
+                    Node = item,
+                    Items = new List<NodeInfoItem>() { new NodeInfoItem (){
 
                                     File=lastFile,
-                        Method=item
+                        Node=item
                                 }}
                 });
                 //listView1.Items.Add(new ListViewItem(new string[] { item.Identifier.Text }) { Tag = allMethods.Last() });
@@ -145,9 +154,9 @@ namespace CodeManager
                         //.OfType<MethodDeclarationSyntax>();
                         foreach (var item in methods)
                         {
-                            var fr = allNodes.FirstOrDefault(z => AreEquals(z.Method, item));
+                            var fr = allNodes.FirstOrDefault(z => AreEquals(z.Node, item));
                             if (fr != null)
-                                fr.Items.Add(new MethodInfoItem() { File = file, Method = item });
+                                fr.Items.Add(new NodeInfoItem() { File = file, Node = item });
                         }
 
                         // Console.WriteLine($"Found method: {method.Identifier.Text}");
@@ -196,6 +205,8 @@ namespace CodeManager
 
         bool searchMethods = true;
         bool searchProps = true;
+        bool searchEnums = true;
+        bool searchClasses = true;
         bool searchFields = true;
         bool autoFormat = false;
         private void setDirectoryFromFileToolStripMenuItem_Click(object sender, EventArgs e)
@@ -228,8 +239,8 @@ namespace CodeManager
             if (listView1.SelectedItems.Count == 0)
                 return;
 
-            var b = listView1.SelectedItems[0].Tag as MethodInfo;
-            ced.textEditor.Text = b.Method.ToFullString();
+            var b = listView1.SelectedItems[0].Tag as NodeInfo;
+            ced.textEditor.Text = b.Node.ToFullString();
             selectedMethodInfo = b;
             UpdateList2();
             toolStripStatusLabel2.Text = $"{b.Items.Count()} clones";
@@ -240,14 +251,14 @@ namespace CodeManager
             if (listView2.SelectedItems.Count == 0)
                 return;
 
-            var b = listView2.SelectedItems[0].Tag as MethodInfoItem;
+            var b = listView2.SelectedItems[0].Tag as NodeInfoItem;
             var code = File.ReadAllText(b.File);
             if (autoFormat)
                 code = NormalizeCodeWithRoslyn(code);
             SyntaxTree tree = CSharpSyntaxTree.ParseText(code);
             CompilationUnitSyntax root = tree.GetCompilationUnitRoot();
             ced.textEditor.Text = code;
-            var searchText = b.Method.ToString();
+            var searchText = b.Node.ToString();
             // Search from the current cursor position to the end
             int index = ced.textEditor.Document.IndexOf(searchText, 0, ced.textEditor.Document.TextLength, StringComparison.OrdinalIgnoreCase);
 
@@ -272,11 +283,11 @@ namespace CodeManager
             int modified = 0;
             for (int i = 0; i < listView2.SelectedItems.Count; i++)
             {
-                var b = listView2.SelectedItems[i].Tag as MethodInfoItem;
+                var b = listView2.SelectedItems[i].Tag as NodeInfoItem;
                 var code = File.ReadAllText(b.File);
                 if (autoFormat)
                     code = NormalizeCodeWithRoslyn(code);
-                code = code.Replace(b.Method.ToFullString(), string.Empty);
+                code = code.Replace(b.Node.ToFullString(), string.Empty);
                 File.WriteAllText(b.File, code);
                 modified++;
                 selectedMethodInfo.Items.Remove(b);
@@ -285,15 +296,17 @@ namespace CodeManager
             UpdateList2();
 
             MessageBox.Show($"{modified} files were modified", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
         }
-        MethodInfo selectedMethodInfo = null;
+
+        NodeInfo selectedMethodInfo = null;
         private void UpdateList2()
         {
             listView2.Items.Clear();
             foreach (var item in selectedMethodInfo.Items)
             {
-                listView2.Items.Add(new System.Windows.Forms.ListViewItem(new string[] { Path.GetFileName(item.File), Path.GetRelativePath(currentDir, item.File), item.Method.Span.Start.ToString() }) { Tag = item });
+                listView2.Items.Add(new System.Windows.Forms.ListViewItem(new string[] {
+                    Path.GetFileName(item.File), Path.GetRelativePath(currentDir, item.File), item.Node.Span.Start.ToString() })
+                { Tag = item });
             }
         }
 
@@ -305,6 +318,8 @@ namespace CodeManager
             d.AddBoolField("fields", "Search fields", searchFields);
             d.AddBoolField("props", "Search props", searchProps);
             d.AddBoolField("methods", "Search methods", searchMethods);
+            d.AddBoolField("enums", "Search enums", searchEnums);
+            d.AddBoolField("classes", "Search classes", searchClasses);
             d.AddBoolField("autoFormat", "Auto format code", autoFormat);
             d.AddEnumField<CompareMethodEnum>("compare", "Compare method", CompareMethod);
 
@@ -315,6 +330,8 @@ namespace CodeManager
             searchFields = d.GetBoolField("fields");
             searchProps = d.GetBoolField("props");
             searchMethods = d.GetBoolField("methods");
+            searchClasses = d.GetBoolField("classes");
+            searchEnums = d.GetBoolField("enums");
             lastMask = d.GetStringField("ext");
             CompareMethod = d.GetEnumField<CompareMethodEnum>("compare");
 
@@ -332,7 +349,7 @@ namespace CodeManager
             if (listView2.SelectedItems.Count == 0)
                 return;
 
-            var b = listView2.SelectedItems[0].Tag as MethodInfoItem;
+            var b = listView2.SelectedItems[0].Tag as NodeInfoItem;
             string args = string.Format("/e, /select, \"{0}\"", b.File);
 
             ProcessStartInfo info = new ProcessStartInfo();

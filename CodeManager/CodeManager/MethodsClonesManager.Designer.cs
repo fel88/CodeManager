@@ -40,6 +40,7 @@
             listView1 = new ListView();
             columnHeader1 = new ColumnHeader();
             columnHeader2 = new ColumnHeader();
+            columnHeader6 = new ColumnHeader();
             panel1 = new Panel();
             panel2 = new Panel();
             button1 = new Button();
@@ -138,7 +139,7 @@
             // 
             // listView1
             // 
-            listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2 });
+            listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader6 });
             listView1.Dock = DockStyle.Fill;
             listView1.FullRowSelect = true;
             listView1.GridLines = true;
@@ -159,6 +160,11 @@
             // 
             columnHeader2.Text = "Path";
             columnHeader2.Width = 155;
+            // 
+            // columnHeader6
+            // 
+            columnHeader6.Text = "Lines qty";
+            columnHeader6.Width = 100;
             // 
             // panel1
             // 
@@ -192,10 +198,10 @@
             // 
             // textBox1
             // 
-            textBox1.Dock = DockStyle.Left;
+            textBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             textBox1.Location = new Point(0, 0);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(185, 23);
+            textBox1.Size = new Size(179, 23);
             textBox1.TabIndex = 4;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
@@ -359,5 +365,6 @@
         private Panel panel2;
         private TextBox textBox1;
         private Button button1;
+        private ColumnHeader columnHeader6;
     }
 }
