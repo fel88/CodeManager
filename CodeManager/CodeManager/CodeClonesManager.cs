@@ -28,10 +28,9 @@ namespace CodeManager
             ElementHost host = new ElementHost();
             host.Child = ced;
             host.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Controls.Add(host, 1, 0);
-            tableLayoutPanel1.SetRowSpan(host, 2);
-
+            tableLayoutPanel2.Controls.Add(host, 0, 1);
         }
+
         CodeEditor ced;
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
@@ -133,6 +132,7 @@ namespace CodeManager
             toolStripStatusLabel1.Text = $"files found: {listView1.Items.Count}; matches: {Matches.Count}";
         }
 
+        string lastPath = "";
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count == 0)
@@ -140,6 +140,7 @@ namespace CodeManager
 
             var path = listView1.SelectedItems[0].Tag as string;
             ced.Text = File.ReadAllText(path);
+            lastPath = path;
             var matches = Matches.Where(z => z.File == path).ToArray();
             if (matches.Any())
             {
@@ -238,6 +239,23 @@ namespace CodeManager
 
             currentDir = System.IO.Directory.GetParent(currentDir).FullName;
             Text = currentDir;
+        }
+
+        private void toolStripButton3_Click_1(object sender, EventArgs e)
+        {
+            if (MessageBox.Show($"Are you sure to save file: {lastPath}?", Text, MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                return;
+
+            File.WriteAllText(lastPath, ced.Text);
+        }
+
+        private void showInExplorerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count == 0)
+                return;
+
+            var path = listView1.SelectedItems[0].Tag as string;
+            MethodsClonesManager.ShowFileInExplorer(path);
         }
     }
 }

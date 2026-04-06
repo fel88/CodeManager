@@ -284,7 +284,7 @@
             toolStripButton3.ImageTransparentColor = Color.Magenta;
             toolStripButton3.Name = "toolStripButton3";
             toolStripButton3.Size = new Size(97, 22);
-            toolStripButton3.Text = "repeat serach";
+            toolStripButton3.Text = "repeat search";
             toolStripButton3.Click += toolStripButton3_Click;
             // 
             // statusStrip1

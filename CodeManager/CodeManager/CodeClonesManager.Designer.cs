@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             tableLayoutPanel1 = new TableLayoutPanel();
             listView1 = new ListView();
             columnHeader1 = new ColumnHeader();
@@ -35,6 +36,10 @@
             listView2 = new ListView();
             columnHeader3 = new ColumnHeader();
             columnHeader4 = new ColumnHeader();
+            panel1 = new Panel();
+            tableLayoutPanel2 = new TableLayoutPanel();
+            toolStrip2 = new ToolStrip();
+            toolStripButton3 = new ToolStripButton();
             toolStrip1 = new ToolStrip();
             toolStripDropDownButton1 = new ToolStripDropDownButton();
             byFileSelectionToolStripMenuItem = new ToolStripMenuItem();
@@ -44,9 +49,15 @@
             toolStripButton1 = new ToolStripButton();
             statusStrip1 = new StatusStrip();
             toolStripStatusLabel1 = new ToolStripStatusLabel();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            showInExplorerToolStripMenuItem = new ToolStripMenuItem();
             tableLayoutPanel1.SuspendLayout();
+            panel1.SuspendLayout();
+            tableLayoutPanel2.SuspendLayout();
+            toolStrip2.SuspendLayout();
             toolStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
+            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -56,6 +67,7 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.Controls.Add(listView1, 0, 0);
             tableLayoutPanel1.Controls.Add(listView2, 0, 1);
+            tableLayoutPanel1.Controls.Add(panel1, 1, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 25);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -68,6 +80,7 @@
             // listView1
             // 
             listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2 });
+            listView1.ContextMenuStrip = contextMenuStrip1;
             listView1.Dock = DockStyle.Fill;
             listView1.FullRowSelect = true;
             listView1.GridLines = true;
@@ -111,6 +124,48 @@
             // columnHeader4
             // 
             columnHeader4.Text = "";
+            // 
+            // panel1
+            // 
+            panel1.Controls.Add(tableLayoutPanel2);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(403, 3);
+            panel1.Name = "panel1";
+            tableLayoutPanel1.SetRowSpan(panel1, 2);
+            panel1.Size = new Size(394, 397);
+            panel1.TabIndex = 2;
+            // 
+            // tableLayoutPanel2
+            // 
+            tableLayoutPanel2.ColumnCount = 1;
+            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.Controls.Add(toolStrip2, 0, 0);
+            tableLayoutPanel2.Dock = DockStyle.Fill;
+            tableLayoutPanel2.Location = new Point(0, 0);
+            tableLayoutPanel2.Name = "tableLayoutPanel2";
+            tableLayoutPanel2.RowCount = 2;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle());
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel2.Size = new Size(394, 397);
+            tableLayoutPanel2.TabIndex = 0;
+            // 
+            // toolStrip2
+            // 
+            toolStrip2.Items.AddRange(new ToolStripItem[] { toolStripButton3 });
+            toolStrip2.Location = new Point(0, 0);
+            toolStrip2.Name = "toolStrip2";
+            toolStrip2.Size = new Size(394, 25);
+            toolStrip2.TabIndex = 0;
+            toolStrip2.Text = "toolStrip2";
+            // 
+            // toolStripButton3
+            // 
+            toolStripButton3.Image = Properties.Resources.disk;
+            toolStripButton3.ImageTransparentColor = Color.Magenta;
+            toolStripButton3.Name = "toolStripButton3";
+            toolStripButton3.Size = new Size(69, 22);
+            toolStripButton3.Text = "save file";
+            toolStripButton3.Click += toolStripButton3_Click_1;
             // 
             // toolStrip1
             // 
@@ -186,6 +241,20 @@
             toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             toolStripStatusLabel1.Size = new Size(0, 17);
             // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { showInExplorerToolStripMenuItem });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(181, 48);
+            // 
+            // showInExplorerToolStripMenuItem
+            // 
+            showInExplorerToolStripMenuItem.Image = Properties.Resources.folder_open;
+            showInExplorerToolStripMenuItem.Name = "showInExplorerToolStripMenuItem";
+            showInExplorerToolStripMenuItem.Size = new Size(180, 22);
+            showInExplorerToolStripMenuItem.Text = "show in explorer";
+            showInExplorerToolStripMenuItem.Click += showInExplorerToolStripMenuItem_Click;
+            // 
             // CodeClonesManager
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -197,10 +266,16 @@
             Name = "CodeClonesManager";
             Text = "CodeClonesManager";
             tableLayoutPanel1.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            tableLayoutPanel2.ResumeLayout(false);
+            tableLayoutPanel2.PerformLayout();
+            toolStrip2.ResumeLayout(false);
+            toolStrip2.PerformLayout();
             toolStrip1.ResumeLayout(false);
             toolStrip1.PerformLayout();
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
+            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -223,5 +298,11 @@
         private ToolStripMenuItem byFileSelectionToolStripMenuItem;
         private ToolStripMenuItem manualToolStripMenuItem;
         private ToolStripButton toolStripButton1;
+        private Panel panel1;
+        private TableLayoutPanel tableLayoutPanel2;
+        private ToolStrip toolStrip2;
+        private ToolStripButton toolStripButton3;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem showInExplorerToolStripMenuItem;
     }
 }

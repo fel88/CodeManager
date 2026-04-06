@@ -350,7 +350,12 @@ namespace CodeManager
                 return;
 
             var b = listView2.SelectedItems[0].Tag as NodeInfoItem;
-            string args = string.Format("/e, /select, \"{0}\"", b.File);
+            ShowFileInExplorer(b.File);
+        }
+
+        public static void ShowFileInExplorer(string path)
+        {
+            string args = string.Format("/e, /select, \"{0}\"", path);
 
             ProcessStartInfo info = new ProcessStartInfo();
             info.FileName = "explorer";
